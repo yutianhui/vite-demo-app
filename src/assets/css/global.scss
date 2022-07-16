@@ -1,0 +1,14 @@
+// 内容区域的样式,限制宽度和居中
+.content {
+  width: 90%;
+  margin: 0 auto;
+}
+// 浏览器滚动条样式
+::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(108, 111, 119);
+  border-radius: 0;
+}
