@@ -15,45 +15,45 @@
 </template>
 
 <script setup>
-  import { ref, toRefs } from 'vue'
-  import logo from '@/assets/img/404.png'
-  import { useRouter, useRoute } from 'vue-router'
-  import { cloneDeep } from 'lodash'
+import { ref, toRefs } from 'vue'
+import logo from '@/assets/img/404.png'
+import { useRouter, useRoute } from 'vue-router'
+import { cloneDeep } from 'lodash'
 
-  const logoWidth = ref(100)
+const logoWidth = ref(100)
 
-  const router = useRouter()
-  const route = useRoute()
+const router = useRouter()
+const route = useRoute()
 
-  // 编程路由
-  const backTo = name => {
-    router.push({ name: name })
-  }
+// 编程路由
+const backTo = name => {
+  router.push({ name: name })
+}
 </script>
 
 <style lang="scss" scoped>
-  .not-found-page :deep() {
-    min-height: 600px;
-    height: 100vh;
-    display: grid;
-    justify-content: center;
-    align-items: center;
+.not-found-page :deep() {
+  min-height: 600px;
+  height: 100vh;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 
-    .el-card {
-      width: 400px;
-      height: 400px;
-      border-radius: 5px;
+  .el-card {
+    width: 400px;
+    height: 400px;
+    border-radius: 5px;
 
-      &__body {
-        height: 100%;
-      }
+    &__body {
+      height: 100%;
+    }
 
-      .content__wrapper {
-        height: 100%;
-        justify-content: space-around;
-        align-items: center;
-        flex-direction: column;
-      }
+    .content__wrapper {
+      height: 100%;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: column;
     }
   }
+}
 </style>

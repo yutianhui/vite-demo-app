@@ -12,3 +12,20 @@
   background-color: rgb(108, 111, 119);
   border-radius: 0;
 }
+// 关键帧动画
+@keyframes solid-text-wrapper {
+  from {
+    left: -100px;
+  }
+  to {
+    left: 200px;
+  }
+}
+@keyframes images-up-down {
+  from {
+    top: 0px;
+  }
+  to {
+    top: 10px;
+  }
+}

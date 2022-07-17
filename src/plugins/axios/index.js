@@ -9,8 +9,8 @@ const instance = axios.create({
   timeout: 10 * 1000,
   headers: {
     'content-type': 'application/json',
-    accpet: 'application/json',
-  },
+    accpet: 'application/json'
+  }
 })
 
 export default instance

@@ -12,5 +12,5 @@ export default {
     app.component('NavBar', NavBar)
     app.component('Tip', Tip)
     app.component('Footer', Footer)
-  },
+  }
 }

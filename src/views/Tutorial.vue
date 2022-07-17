@@ -117,199 +117,199 @@
 </template>
 
 <script setup>
-  import { ref, toRefs, reactive, computed, readonly, onMounted, toRef } from 'vue'
-  import { useStore } from 'vuex'
-  import moment from 'moment'
-  import http from '@/plugins/axios/index.js'
-  import vueLogo from '@/assets/img/logo.png'
+import { ref, toRefs, reactive, computed, readonly, onMounted, toRef } from 'vue'
+import { useStore } from 'vuex'
+import moment from 'moment'
+import http from '@/plugins/axios/index.js'
+import vueLogo from '@/assets/img/logo.png'
 
-  const store = useStore()
+const store = useStore()
 
-  /* ----- 1. 测试使用vuex ----- */
-  const userInfoForm = reactive({ userId: '', userName: '' })
-  const updateUserInfo = clear => {
-    store.dispatch('updateUserInfo', clear ? {} : { ...userInfoForm })
+/* ----- 1. 测试使用vuex ----- */
+const userInfoForm = reactive({ userId: '', userName: '' })
+const updateUserInfo = clear => {
+  store.dispatch('updateUserInfo', clear ? {} : { ...userInfoForm })
+}
+const userName = computed(() => store.state.user.userName)
+const userId = computed(() => store.state.user.userId)
+
+/* ----- 2. 测试使用树形选择器 ----- */
+// 树形控件配置模板
+const defaultProps = {
+  children: 'children',
+  label: 'label'
+}
+
+// 控件的数据
+const treeData = reactive([
+  {
+    id: '1',
+    label: '1. 聚合API',
+    children: [
+      { id: '1-1', label: '1-1. ref()' },
+      { id: '1-2', label: '1-2. toRefs()' },
+      { id: '1-3', label: '1-3. reactive()' }
+    ]
   }
-  const userName = computed(() => store.state.user.userName)
-  const userId = computed(() => store.state.user.userId)
+])
 
-  /* ----- 2. 测试使用树形选择器 ----- */
-  // 树形控件配置模板
-  const defaultProps = {
-    children: 'children',
-    label: 'label',
-  }
-
-  // 控件的数据
-  const treeData = reactive([
-    {
-      id: '1',
-      label: '1. 聚合API',
+setTimeout(() => {
+  for (let index = 2; index < 6; index++) {
+    treeData.push({
+      id: `${index}`,
+      label: `${index}. 聚合API`,
       children: [
-        { id: '1-1', label: '1-1. ref()' },
-        { id: '1-2', label: '1-2. toRefs()' },
-        { id: '1-3', label: '1-3. reactive()' },
-      ],
-    },
-  ])
-
-  setTimeout(() => {
-    for (let index = 2; index < 6; index++) {
-      treeData.push({
-        id: `${index}`,
-        label: `${index}. 聚合API`,
-        children: [
-          { id: `${index}-1`, label: `${index}-1. ref()` },
-          { id: `${index}-2`, label: `${index}-2. toRefs()` },
-          { id: `${index}-3`, label: `${index}-3. reactive()` },
-        ],
-      })
-    }
-  }, 2000)
-
-  const currNode = ref(null)
-  const currId = ref('请点击节点')
-  const currLabel = ref('请点击节点')
-
-  // 树形控件点击的回调
-  const handleNodeClick = (node, treeNode, eventObj) => {
-    console.log('当前节点 => ', node)
-    console.log('树节点 => ', treeNode)
-    console.log('事件对象 => ', eventObj)
-    currNode.value = node
-    currId.value = node.id
-    currLabel.value = node.label
+        { id: `${index}-1`, label: `${index}-1. ref()` },
+        { id: `${index}-2`, label: `${index}-2. toRefs()` },
+        { id: `${index}-3`, label: `${index}-3. reactive()` }
+      ]
+    })
   }
+}, 2000)
 
-  /* ----- 3. 测试使用axios请求 ----- */
-  // 用户数据对象
-  const userData = ref(null)
-  const userImage = ref('')
-  const userFullName = ref('')
-  const getUserBtnLoading = ref(true)
-  // 获取用户信息的函数
-  const getUserData = () => {
-    getUserBtnLoading.value = true
-    http
-      .get('/api/')
-      .then(({ data }) => {
-        userData.value = data.results[0]
-        userImage.value = userData.value.picture.large
-        let { title, first, last } = userData.value.name
-        userFullName.value = title + '. ' + first + ' ' + last
-        store.dispatch('updateUserInfo', { userId: userData.value.dob.age, userName: userFullName, now: true })
-        // console.log('获取的数据： ', userData.value);
-      })
-      .catch(err => {
-        console.log('获取数据失败: ', err)
-      })
-      .finally(() => {
-        getUserBtnLoading.value = false
-      })
-  }
+const currNode = ref(null)
+const currId = ref('请点击节点')
+const currLabel = ref('请点击节点')
 
-  // monunted -  页面渲染后的时候调用
-  onMounted(async () => {
-    // 请求数据
-    getUserData()
-  })
+// 树形控件点击的回调
+const handleNodeClick = (node, treeNode, eventObj) => {
+  console.log('当前节点 => ', node)
+  console.log('树节点 => ', treeNode)
+  console.log('事件对象 => ', eventObj)
+  currNode.value = node
+  currId.value = node.id
+  currLabel.value = node.label
+}
+
+/* ----- 3. 测试使用axios请求 ----- */
+// 用户数据对象
+const userData = ref(null)
+const userImage = ref('')
+const userFullName = ref('')
+const getUserBtnLoading = ref(true)
+// 获取用户信息的函数
+const getUserData = () => {
+  getUserBtnLoading.value = true
+  http
+    .get('/api/')
+    .then(({ data }) => {
+      userData.value = data.results[0]
+      userImage.value = userData.value.picture.large
+      let { title, first, last } = userData.value.name
+      userFullName.value = title + '. ' + first + ' ' + last
+      store.dispatch('updateUserInfo', { userId: userData.value.dob.age, userName: userFullName, now: true })
+      // console.log('获取的数据： ', userData.value);
+    })
+    .catch(err => {
+      console.log('获取数据失败: ', err)
+    })
+    .finally(() => {
+      getUserBtnLoading.value = false
+    })
+}
+
+// monunted -  页面渲染后的时候调用
+onMounted(async () => {
+  // 请求数据
+  getUserData()
+})
 </script>
 
 <style lang="scss" scoped>
-  .content-wrapper {
+.content-wrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  & > .el-col {
+    border-radius: 5px;
+    height: 500px;
+    overflow-x: auto;
+    overflow-y: auto;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+
+  .user__info .el-form {
+    width: 90%;
     margin-top: 10px;
-    margin-bottom: 10px;
-
-    & > .el-col {
-      border-radius: 5px;
-      height: 500px;
-      overflow-x: auto;
-      overflow-y: auto;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-      padding: 10px;
+    :deep(.el-input__wrapper) {
+      border-radius: 4px;
     }
+  }
+  .user_info__show {
+    p span {
+      color: #888;
+      font-weight: 800;
+    }
+  }
 
-    .user__info .el-form {
-      width: 90%;
+  // .select-wrapper {
+  //   background-color: antiquewhite;'
+  // }
+
+  .shower-wrapper {
+    padding: 0 15px;
+    background-color: rgb(111, 210, 165);
+    p {
       margin-top: 10px;
-      :deep(.el-input__wrapper) {
-        border-radius: 4px;
-      }
     }
-    .user_info__show {
-      p span {
-        color: #888;
-        font-weight: 800;
-      }
+    .title {
+      color: rgb(64, 126, 99);
+      font-weight: 800;
     }
-
-    // .select-wrapper {
-    //   background-color: antiquewhite;'
-    // }
-
-    .shower-wrapper {
-      padding: 0 15px;
-      background-color: rgb(111, 210, 165);
-      p {
-        margin-top: 10px;
-      }
-      .title {
-        color: rgb(64, 126, 99);
-        font-weight: 800;
-      }
-      .text {
-        color: rgb(45, 104, 77);
-      }
+    .text {
+      color: rgb(45, 104, 77);
     }
   }
+}
 
-  .axios-wrapper > .el-col :deep() {
-    color: rgb(122, 154, 242);
-    background-color: rgb(209, 221, 255);
+.axios-wrapper > .el-col :deep() {
+  color: rgb(122, 154, 242);
+  background-color: rgb(209, 221, 255);
 
-    & > .user__info {
+  & > .user__info {
+    height: 100%;
+    & > .el-col {
       height: 100%;
-      & > .el-col {
-        height: 100%;
-        overflow-y: auto;
-      }
+      overflow-y: auto;
     }
-
-    .user_json_data {
-      // overflow-x: hidden;
-      color: rgb(150, 175, 243);
-    }
-
-    // 图片的外层div
-    .user_info__image {
-      display: block;
-      margin: 20px auto;
-      text-align: center;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 10px solid rgb(174, 190, 231);
-      // box-shadow: 0 2px 12px 0 rgba(165, 97, 97, 0.5);
-
-      img.el-image__inner {
-        transition: all 0.25s ease-in-out;
-      }
-
-      &:hover {
-        img.el-image__inner {
-          transform: scale(1.1);
-        }
-      }
-    }
-
-    .user_info_form {
-      margin: 0 auto;
-      .el-form-item {
-        display: inline-flex;
-        padding: 10px;
-        width: 50%;
-      }
-    }
-
-    //
   }
+
+  .user_json_data {
+    // overflow-x: hidden;
+    color: rgb(150, 175, 243);
+  }
+
+  // 图片的外层div
+  .user_info__image {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 10px solid rgb(174, 190, 231);
+    // box-shadow: 0 2px 12px 0 rgba(165, 97, 97, 0.5);
+
+    img.el-image__inner {
+      transition: all 0.25s ease-in-out;
+    }
+
+    &:hover {
+      img.el-image__inner {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .user_info_form {
+    margin: 0 auto;
+    .el-form-item {
+      display: inline-flex;
+      padding: 10px;
+      width: 50%;
+    }
+  }
+
+  //
+}
 </style>

@@ -39,34 +39,34 @@
 </template>
 
 <script setup>
-  import { ref, toRefs } from 'vue'
-  import vueLogo from '@/assets/img/logo.png'
+import { ref, toRefs } from 'vue'
+import vueLogo from '@/assets/img/logo.png'
 </script>
 
 <style lang="scss" scoped>
-  .home__page {
-    min-height: 500px;
-    height: calc(100vh - 70px);
-    .content {
-      .el-col {
-        text-align: center;
-        padding: 20px;
-      }
-    }
-
-    .el-col.project__resume {
-      .el-row .el-col {
-        text-align: start;
-        p {
-          line-height: 1.8;
-        }
-      }
+.home__page {
+  min-height: 500px;
+  height: calc(100vh - 70px);
+  .content {
+    .el-col {
+      text-align: center;
+      padding: 20px;
     }
   }
 
-  .img__wrapper {
-    padding: 20px;
-    background-color: white;
-    border-radius: 20px;
+  .el-col.project__resume {
+    .el-row .el-col {
+      text-align: start;
+      p {
+        line-height: 1.8;
+      }
+    }
   }
+}
+
+.img__wrapper {
+  padding: 20px;
+  background-color: white;
+  border-radius: 20px;
+}
 </style>

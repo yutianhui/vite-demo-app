@@ -11,7 +11,7 @@ export default {
    */
   state: {
     userName: '',
-    userId: '',
+    userId: ''
   },
   /**
    * 改变state的行为,接受state参数
@@ -26,9 +26,9 @@ export default {
       })
       ElMessage({
         message: '更新成功',
-        type: 'success',
+        type: 'success'
       })
-    },
+    }
   },
   /**
    * actions 和 mutations 类似
@@ -45,6 +45,6 @@ export default {
       setTimeout(() => {
         context.commit('updateUserInfo', user)
       }, 1000)
-    },
-  },
+    }
+  }
 }

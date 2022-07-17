@@ -9,32 +9,25 @@ import store from '../store'
 import Home from '@/views/Home.vue'
 import NotFound from '@/views/404.vue'
 import Tutorial from '@/views/Tutorial.vue'
+import Concats from '@/views/Concats.vue'
+
+// 创建路由对象的函数
+const buildRoute = (path, name, component) => ({
+  path,
+  name,
+  component
+})
 
 // 定义页面路由
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/tutorial',
-    name: 'Tutorial',
-    component: Tutorial,
-  },
-]
+const routes = [buildRoute('/', 'Home', Home), buildRoute('/tutorial', 'Tutorial', Tutorial), buildRoute('/concats', 'Concats', Concats)]
 
 // not found page - 404
-routes.push({
-  path: '/:pathMatch(.*)*',
-  name: 'Not Found',
-  component: NotFound,
-})
+routes.push(buildRoute('/:pathMatch(.*)*', 'Not Found', NotFound))
 
 // 创建路由对象
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes
 })
 
 /**
@@ -45,7 +38,7 @@ router.beforeEach((to, from, next) => {
   // 滚动到页面顶部
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
+    behavior: 'smooth'
   })
   // 改变页面的标题
   document.title = to.name

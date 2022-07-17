@@ -6,10 +6,10 @@
 </template>
 
 <script setup>
-  import { useStore } from 'vuex'
+import { useStore } from 'vuex'
 
-  // 使用vuex中的数据
-  const store = useStore()
+// 使用vuex中的数据
+const store = useStore()
 </script>
 
 <style lang="scss" scoped></style>
